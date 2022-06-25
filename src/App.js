@@ -1,6 +1,7 @@
 import './App.css';
 import React, {useState} from 'react';
 import LoginForm from './components/LoginForm';
+import AccountBalance from './components/AccountBalance';
 
 function App() {
   const adminUser = {
@@ -11,14 +12,14 @@ function App() {
   const [user, setUser] = useState({name:"", email: ""});
   const [error, setError] = useState("");
   
-  const Login = props => {
-    console.log(props);
+  const onLogin = details => {
+    console.log(details);
 
-    if (props.email === adminUser.email && props.password === adminUser.password){
+    if (details.email === adminUser.email && details.password === adminUser.password){
       console.log('logged in')
       setUser({
-        name: props.name,
-        email: props.email
+        name: details.name,
+        email: details.email
       })
     }
 
@@ -28,7 +29,7 @@ function App() {
     }
   }
 
-  const Logout = () => {
+  const onLogout = () => {
     console.log("logged out")
     setUser({name:"", email: ""})
   }
@@ -36,12 +37,13 @@ function App() {
   return (
     <div className="App">
       {(user.email != "") ? (
-        <div className = "welcome">
-          <h2>welcome <span>{user.name}</span></h2>
-          <button onClick={Logout}>Logout</button>
+        <><div className="welcome">
+          <h2>Welcome, <span>{user.name}</span>!</h2>
+          <button onClick={onLogout}>Logout</button>
         </div>
+        <AccountBalance/></>
       ) : (
-       <LoginForm Login={Login} error={error}/>
+       <LoginForm login={onLogin} error={error}/>
       )}
     </div>
   );
