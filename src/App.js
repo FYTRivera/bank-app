@@ -2,6 +2,7 @@ import './App.css';
 import React, {useState} from 'react';
 import LoginForm from './components/LoginForm';
 import AccountBalance from './components/AccountBalance';
+import ExpenseList from './components/ExpenseList';
 
 function App() {
   const adminUser = {
@@ -11,6 +12,10 @@ function App() {
 
   const [user, setUser] = useState({name:"", email: ""});
   const [error, setError] = useState("");
+
+  // let initialBalance = Number(window.localStorage.getItem('accountBalance'))
+  // const [endBalance, setEndBalance] = useState(Number(initialBalance))
+  // const [increment, setIncrement] = useState(0);
   
   const onLogin = details => {
     console.log(details);
@@ -37,11 +42,12 @@ function App() {
   return (
     <div className="App">
       {(user.email != "") ? (
-        <><div className="welcome">
+        <>
+        <div className="welcome">
           <h2>Welcome, <span>{user.name}</span>!</h2>
           <button onClick={onLogout}>Logout</button>
         </div>
-        <AccountBalance/></>
+        <AccountBalance /></>
       ) : (
        <LoginForm login={onLogin} error={error}/>
       )}
