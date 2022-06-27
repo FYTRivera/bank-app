@@ -9,6 +9,7 @@ function AccountBalance(){
     const positiveIncrement = useRef()
     const negativeIncrement = useRef()
     const [test, setTest] = useState([])
+    const [test2, setTest2] = useState([])
     
     const expenseName = useRef()
     const expenseCost = useRef()
@@ -20,17 +21,30 @@ function AccountBalance(){
     }
 
     function testAddFunction () {
+        const testObject = {
+            name: expenseName.current.value,
+            cost: expenseCost.current.value
+        }
+        const isOnTheList = test2.includes(expenseName.current.value)
+        if(isOnTheList){
+            console.log('item is already in the list')
+        }
+        else{
         setTest([...test, {
-            id: test.length,
+            // id: test.length,
             name: expenseName.current.value,
             cost: expenseCost.current.value
         }])
-        console.log([...test])
+        setTest2([...test2, expenseName.current.value])
+        }
+        console.log(test2.includes(expenseName.current.value))
+        console.log(test2)
     }
 
     function testRemoveFunction (e) {
         const name = e.target.parentElement.getAttribute('name')
         setTest(test.filter(test=> test.name !== name))
+        setTest2(test2.filter(item=> item !== name))
         console.log(e.target.parentElement.getAttribute('name'))
     }
 
