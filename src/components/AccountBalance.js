@@ -30,22 +30,25 @@ function AccountBalance(){
             console.log('item is already in the list')
         }
         else{
-        setTest([...test, {
-            // id: test.length,
-            name: expenseName.current.value,
-            cost: expenseCost.current.value
-        }])
-        setTest2([...test2, expenseName.current.value])
+            setTest([...test, {
+                // id: test.length,
+                name: expenseName.current.value,
+                cost: expenseCost.current.value
+            }])
+            setTest2([...test2, expenseName.current.value])
+            setEndBalance(Number(endBalance) - Number(expenseCost.current.value))
         }
-        console.log(test2.includes(expenseName.current.value))
-        console.log(test2)
+        // console.log(test2.includes(expenseName.current.value))
+        // console.log(test2)
     }
 
     function testRemoveFunction (e) {
         const name = e.target.parentElement.getAttribute('name')
+        const cost = e.target.parentElement.getAttribute('cost')
         setTest(test.filter(test=> test.name !== name))
         setTest2(test2.filter(item=> item !== name))
-        console.log(e.target.parentElement.getAttribute('name'))
+        setEndBalance(Number(endBalance) + Number(cost))
+        // console.log(e.target.parentElement.getAttribute('name'))
     }
 
 function addMoney(){
@@ -92,7 +95,7 @@ useEffect(() => {
                 </div>
                 <button type="submit" onClick={testAddFunction}>add to test array</button>
                 <ul>
-                    {test.map((item, index) => (<li name={item.name} ref={removeButton} key={index}>{item.name} | {item.cost} | 
+                    {test.map((item, index) => (<li cost={item.cost} name={item.name} ref={removeButton} key={index}>{item.name} | {item.cost} | 
                         <button onClick={testRemoveFunction}>delete</button>
                         <button onClick={()=>console.log(item)}>check</button></li>))}
                 </ul>
