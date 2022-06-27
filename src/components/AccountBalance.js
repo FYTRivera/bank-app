@@ -8,8 +8,8 @@ function AccountBalance(){
     //let endBalance = Number(initialBalance) + Number(increment)
     const positiveIncrement = useRef()
     const negativeIncrement = useRef()
-    const [test, setTest] = useState([])
-    const [test2, setTest2] = useState([])
+    const [test, setTest] = useState(JSON.parse(window.localStorage.getItem('test')))
+    const [test2, setTest2] = useState(JSON.parse(window.localStorage.getItem('test2')))
     
     const expenseName = useRef()
     const expenseCost = useRef()
@@ -21,13 +21,10 @@ function AccountBalance(){
     }
 
     function testAddFunction () {
-        const testObject = {
-            name: expenseName.current.value,
-            cost: expenseCost.current.value
-        }
         const isOnTheList = test2.includes(expenseName.current.value)
         if(isOnTheList){
             console.log('item is already in the list')
+
         }
         else{
             setTest([...test, {
@@ -39,7 +36,6 @@ function AccountBalance(){
             setEndBalance(Number(endBalance) - Number(expenseCost.current.value))
         }
         // console.log(test2.includes(expenseName.current.value))
-        // console.log(test2)
     }
 
     function testRemoveFunction (e) {
@@ -62,6 +58,8 @@ function takeMoney(){
 useEffect(() => {
   window.localStorage.setItem('accountBalance', endBalance);
   window.localStorage.setItem('increment', increment);
+  window.localStorage.setItem('test', JSON.stringify(test));
+  window.localStorage.setItem('test2', JSON.stringify(test2));
 });
 
     return(
@@ -93,7 +91,7 @@ useEffect(() => {
                     <label>Expense Cost:</label>
                     <input type="number" ref={expenseCost}></input>
                 </div>
-                <button type="submit" onClick={testAddFunction}>add to test array</button>
+                <button type="submit" onClick={testAddFunction}>add to expense list</button>
                 <ul>
                     {test.map((item, index) => (<li cost={item.cost} name={item.name} ref={removeButton} key={index}>{item.name} | {item.cost} | 
                         <button onClick={testRemoveFunction}>delete</button>
