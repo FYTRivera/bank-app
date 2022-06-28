@@ -8,8 +8,9 @@ function AccountBalance(){
     //let endBalance = Number(initialBalance) + Number(increment)
     const positiveIncrement = useRef()
     const negativeIncrement = useRef()
-    const [test, setTest] = useState(JSON.parse(window.localStorage.getItem('test')))
-    const [test2, setTest2] = useState(JSON.parse(window.localStorage.getItem('test2')))
+    const [test, setTest] = useState(JSON.parse(window.localStorage.getItem('test')) || [])
+    const [test2, setTest2] = useState(JSON.parse(window.localStorage.getItem('test2')) || [])
+    const [placeholder, setPlaceholder] = useState('')
     
     const expenseName = useRef()
     const expenseCost = useRef()
@@ -24,11 +25,11 @@ function AccountBalance(){
         const isOnTheList = test2.includes(expenseName.current.value)
         if(isOnTheList){
             console.log('item is already in the list')
-
+            console.log(test2)
         }
         else{
             setTest([...test, {
-                // id: test.length,
+                id: test.length,
                 name: expenseName.current.value,
                 cost: expenseCost.current.value
             }])
@@ -45,6 +46,44 @@ function AccountBalance(){
         setTest2(test2.filter(item=> item !== name))
         setEndBalance(Number(endBalance) + Number(cost))
         // console.log(e.target.parentElement.getAttribute('name'))
+    }
+
+    function nameUpdateFunction (text, name) {
+        const updatedTest = test.map(item=>{
+            if(item.name===name){
+                return {...item, name: text};
+            }
+
+            // return {...item, name: item.name};
+            return item;
+        })
+
+        const updatedTest2 = test2.map(item=>{
+            if(item===name){
+                return text;
+            }
+            return item;
+        })
+
+        console.log('updated test', updatedTest)
+        console.log('updated test 2', updatedTest2)
+        setTest(updatedTest)
+        setTest2(updatedTest2)
+    }
+
+    function costUpdateFunction (cost, id) {
+        const updatedTest = test.map(item=>{
+            if(item.id===id){
+                return {...item, cost: cost};
+            }
+
+            // return {...item, name: item.name};
+            return item;
+        })
+
+        setEndBalance(Number(endBalance) - Number(cost))
+        console.log(updatedTest)
+        setTest(updatedTest)
     }
 
 function addMoney(){
@@ -91,10 +130,12 @@ useEffect(() => {
                     <label>Expense Cost:</label>
                     <input type="number" ref={expenseCost}></input>
                 </div>
-                <button type="submit" onClick={testAddFunction}>add to expense list</button>
+                <button type="submit" onClick={testAddFunction}>Add to Expense List</button>
                 <ul>
-                    {test.map((item, index) => (<li cost={item.cost} name={item.name} ref={removeButton} key={index}>{item.name} | {item.cost} | 
-                        <button onClick={testRemoveFunction}>delete</button>
+                    {test.map((item, index) => (<li cost={item.cost} name={item.name} ref={removeButton} key={index}>
+                        <input type='text' value={item.name} onChange={e=>nameUpdateFunction(e.target.value, item.name)} /> | 
+                        <input type='number' value={item.cost} onChange={e=>costUpdateFunction(e.target.value, item.id)} /> | 
+                        <button onClick={testRemoveFunction}>Delete</button>
                         </li>))}
                 </ul>
             </form>
