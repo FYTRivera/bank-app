@@ -53,3 +53,62 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.form-outer{
+  background-color: rgb(239, 239, 239);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.form-header{
+  width:100vw;
+  height: 7.5%;
+  background-color: #bc4434;
+  position: absolute;
+  top:0;
+  display: flex;
+}
+
+.form-inner{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-group{
+  margin: 10px;
+}
+
+.input-box{
+  padding: 12px;
+  border-radius: 10px;
+  width: 25vw;
+  border: 1px solid #d6c7c7;
+}
+
+.logo{
+  height: 100%;
+  position: relative;
+}
+
+.login-button{
+  background-color: #d6c7c7;
+  color:black;
+  border-radius: 20px;
+  border: 1px solid #d6c7c7;
+  padding: 12px;
+  cursor: pointer;
+  width: 100px;
+  transition-duration: 0.4s;
+}
+
+.login-button:hover{
+  border: 1px solid #d6c7c7;
+  background-color: #615149;
+  color:white;
+}

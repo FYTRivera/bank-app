@@ -95,7 +95,7 @@ useEffect(() => {
                 <ul>
                     {test.map((item, index) => (<li cost={item.cost} name={item.name} ref={removeButton} key={index}>{item.name} | {item.cost} | 
                         <button onClick={testRemoveFunction}>delete</button>
-                        <button onClick={()=>console.log(item)}>check</button></li>))}
+                        </li>))}
                 </ul>
             </form>
         </div>
