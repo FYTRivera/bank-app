@@ -39,6 +39,10 @@ function AccountBalance(){
         // console.log(test2.includes(expenseName.current.value))
     }
 
+    function testEditFunction(e){
+        
+    }
+
     function testRemoveFunction (e) {
         const name = e.target.parentElement.getAttribute('name')
         const cost = e.target.parentElement.getAttribute('cost')
@@ -71,9 +75,11 @@ function AccountBalance(){
         setTest2(updatedTest2)
     }
 
-    function costUpdateFunction (cost, id) {
+    function costUpdateFunction (cost, name, itemCost) {
+        console.log('itemCost', itemCost)
+        console.log('cost', cost)
         const updatedTest = test.map(item=>{
-            if(item.id===id){
+            if(item.name===name){
                 return {...item, cost: cost};
             }
 
@@ -81,7 +87,7 @@ function AccountBalance(){
             return item;
         })
 
-        setEndBalance(Number(endBalance) - Number(cost))
+        setEndBalance(Number(endBalance) + Number(itemCost) - Number(cost))
         console.log(updatedTest)
         setTest(updatedTest)
     }
@@ -134,7 +140,8 @@ useEffect(() => {
                 <ul>
                     {test.map((item, index) => (<li cost={item.cost} name={item.name} ref={removeButton} key={index}>
                         <input type='text' value={item.name} onChange={e=>nameUpdateFunction(e.target.value, item.name)} /> | 
-                        <input type='number' value={item.cost} onChange={e=>costUpdateFunction(e.target.value, item.id)} /> | 
+                        <input type='number' value={item.cost} onChange={e=>costUpdateFunction(e.target.value, item.name, item.cost)} /> | 
+                        <button onClick={testEditFunction}>Update</button> | 
                         <button onClick={testRemoveFunction}>Delete</button>
                         </li>))}
                 </ul>
