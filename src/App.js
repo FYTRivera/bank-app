@@ -43,11 +43,17 @@ function App() {
     <div className="App">
       {(user.email != "") ? (
         <>
-        <div className="welcome">
-          <h2>Welcome, <span>{user.name}</span>!</h2>
-          <button onClick={onLogout}>Logout</button>
+        <div className="form-outer">
+          <div className="main-page-header">
+              <img className='logo' src='\assets\images\avion-logo.png' alt='Avion Logo'/>
+              <h2 className='welcoming-message'>Welcome, <span>{user.name}</span>!</h2>
+              <button className="logout-button" onClick={onLogout}>Logout</button>
+          </div>
+        <div className="main-page">
+        <AccountBalance />
         </div>
-        <AccountBalance /></>
+        </div>
+        </>
       ) : (
        <LoginForm login={onLogin} error={error}/>
       )}

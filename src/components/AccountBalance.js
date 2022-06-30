@@ -111,37 +111,43 @@ useEffect(() => {
     <>
         <div>
             <form onSubmit={submitHandler}>
-                <div className="form-inner">
-                    <label htmlFor='number'>Deposit: </label>
-                    <input ref={positiveIncrement} type='number' name='deposit' id='deposit' onChange={e => setIncrement(e.target.value)} />
-                    <button onClick={addMoney}>Deposit</button>
-                </div>
                 <div>
-                    <label htmlFor='number'>Withdraw: </label>
-                    <input ref={negativeIncrement} type='number' name='withdraw' id='withdraw' onChange={e => setIncrement(e.target.value)} />
-                    <button onClick={takeMoney}>Withdraw</button>
+                    <ExpenseList balance={endBalance}/>
+                </div>
+                <div className='accountBalanceTest'>
+                    <div className="form-inner">
+                        <label htmlFor='number'>Deposit: </label>
+                        <input ref={positiveIncrement} step=".01" type='number' name='deposit' id='deposit' placeholder='Input deposit amount...' className='input-box' onChange={e => setIncrement(e.target.value)} />
+                        <button className='logout-button' onClick={addMoney}>Deposit</button>
+                    </div>
+                    <div className="form-inner">
+                        <label htmlFor='number'>Withdraw: </label>
+                        <input ref={negativeIncrement} step=".01" type='number' name='withdraw' id='withdraw' placeholder='Input withdraw amount...' className='input-box' onChange={e => setIncrement(e.target.value)} />
+                        <button className='logout-button' onClick={takeMoney}>Withdraw</button>
+                    </div>
                 </div>
             </form>
         </div>
         <div>
-            <ExpenseList balance={endBalance}/>
-        </div>
         <div>
+            <h3>Expense List</h3>
+        </div>
             <form onSubmit={submitHandler}>
-                <div>
+                <div className="accountBalanceTest">
+                    <div className="form-inner">
                     <label>Expense Name:</label>
-                    <input type="text" ref={expenseName}></input>
-                </div>
-                <div>
+                    <input className="input-box" placeholder="Input expense name..." type="text" ref={expenseName}></input>
+                    </div>
+                    <div className="form-inner">
                     <label>Expense Cost:</label>
-                    <input type="number" ref={expenseCost}></input>
+                    <input className="input-box" placeholder="Input expense cost..." type="number" ref={expenseCost}></input>
+                    </div>                
                 </div>
-                <button type="submit" onClick={testAddFunction}>Add to Expense List</button>
+                <button className='normal-button' type="submit" onClick={testAddFunction}>Add to Expense List</button>
                 <ul>
                     {test.map((item, index) => (<li cost={item.cost} name={item.name} ref={removeButton} key={index}>
                         <input type='text' value={item.name} onChange={e=>nameUpdateFunction(e.target.value, item.name)} /> | 
-                        <input type='number' value={item.cost} onChange={e=>costUpdateFunction(e.target.value, item.name, item.cost)} /> | 
-                        <button onClick={testEditFunction}>Update</button> | 
+                        <input type='number' value={item.cost} onChange={e=>costUpdateFunction(e.target.value, item.name, item.cost)} /> |  
                         <button onClick={testRemoveFunction}>Delete</button>
                         </li>))}
                 </ul>
