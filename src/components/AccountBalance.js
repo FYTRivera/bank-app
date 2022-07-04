@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import ExpenseList from "./ExpenseList";
 
-function AccountBalance(){
+function AccountBalance(props){
+    const user = props.user
     let initialBalance = Number(window.localStorage.getItem('accountBalance'))
     const [endBalance, setEndBalance] = useState(Number(initialBalance))
     const [increment, setIncrement] = useState(0);
     //let endBalance = Number(initialBalance) + Number(increment)
     const positiveIncrement = useRef()
     const negativeIncrement = useRef()
+    const transferIncrement = useRef()
+    const transferNumber = useRef()
     const [test, setTest] = useState(JSON.parse(window.localStorage.getItem('test')) || [])
     const [test2, setTest2] = useState(JSON.parse(window.localStorage.getItem('test2')) || [])
-    const [placeholder, setPlaceholder] = useState('')
     
     const expenseName = useRef()
     const expenseCost = useRef()
@@ -20,6 +22,8 @@ function AccountBalance(){
     const submitHandler = e => {
         e.preventDefault();
     }
+
+    console.log(user)
 
     function testAddFunction () {
         const isOnTheList = test2.includes(expenseName.current.value)
@@ -37,10 +41,8 @@ function AccountBalance(){
             setEndBalance(Number(endBalance) - Number(expenseCost.current.value))
         }
         // console.log(test2.includes(expenseName.current.value))
-    }
-
-    function testEditFunction(e){
-        
+        expenseName.current.value=''
+        expenseCost.current.value=''
     }
 
     function testRemoveFunction (e) {
@@ -94,10 +96,18 @@ function AccountBalance(){
 
 function addMoney(){
     setEndBalance(Number(endBalance) + Number(positiveIncrement.current.value))
+    positiveIncrement.current.value=''
 }
 
 function takeMoney(){
     setEndBalance(Number(endBalance) - Number(negativeIncrement.current.value))
+    negativeIncrement.current.value=''
+}
+
+function transferMoney(){
+    setEndBalance(Number(endBalance) - Number(transferIncrement.current.value))
+    transferNumber.current.value=''
+    transferIncrement.current.value=''
 }
 
 useEffect(() => {
@@ -111,6 +121,10 @@ useEffect(() => {
     <>
         <div>
             <form onSubmit={submitHandler}>
+                <div className="accountBalanceTest">
+                    <p>Account Name: <b>{user.name}</b></p>
+                    <p>Account Number: <b>{user.number}</b></p>
+                </div>
                 <div>
                     <ExpenseList balance={endBalance}/>
                 </div>
@@ -126,6 +140,14 @@ useEffect(() => {
                         <button className='logout-button' onClick={takeMoney}>Withdraw</button>
                     </div>
                 </div>
+                <div className="form-inner">
+                        <h3>Transfer to Another Account </h3>
+                        <label htmlFor='transferNumber'>Transfer to Account Number: </label>
+                        <input ref={transferNumber} type='number' name='transferNumber' id='transferNumber' placeholder='Input account number to transfer to...' className='input-box' />
+                        <label htmlFor='transfer'>Transfer Amount: </label>
+                        <input ref={transferIncrement} step=".01" type='number' name='transfer' id='transfer' placeholder='Input transfer amount...' className='input-box' onChange={e => setIncrement(e.target.value)} />
+                        <button className='logout-button' onClick={transferMoney}>Transfer</button>
+                    </div>
             </form>
         </div>
         <div>

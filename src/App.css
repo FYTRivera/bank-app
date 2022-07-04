@@ -3,6 +3,11 @@ h1{
   padding: 0;
 }
 
+p{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .App {
   text-align: center;
 }
@@ -176,7 +181,8 @@ input::-webkit-inner-spin-button {
 
 .accountBalanceTest{
   display: flex;
-
+  justify-content: center;
+  align-items: center;
 }
 
 .welcoming-message{
@@ -198,4 +204,8 @@ input::-webkit-inner-spin-button {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.error{
+  color: red;
 }
