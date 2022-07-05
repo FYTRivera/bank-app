@@ -12,40 +12,45 @@ function App() {
     number: "12345"
   }
 
-  const [otherUsers, setOtherUsers] = useState(JSON.parse(window.localStorage.getItem('otherUsers'))||[])
-  const [accountNumbers, setAccountNumbers] = useState(otherUsers.map(number=>number.number))
-  console.log(accountNumbers)
-  console.log(otherUsers)
+  const [otherUsers, setOtherUsers] = useState(JSON.parse(window.localStorage.getItem('otherUsers')) || [])
+  const [accountBalances, setAccountBalances] = useState((otherUsers.map(mail=>mail.email)) || [])
+  // console.log(accountBalances)
+  // console.log(otherUsers)
 
-  const [user, setUser] = useState(JSON.parse(window.localStorage.getItem('user'))||{});
+  const [user, setUser] = useState(JSON.parse(window.localStorage.getItem('user')) || {});
   const [error, setError] = useState("");
 
   window.localStorage.setItem('user', JSON.stringify(user));
   window.localStorage.setItem('otherUsers', JSON.stringify(otherUsers));
+  window.localStorage.setItem('accountBalances', JSON.stringify(accountBalances));
   
   const onLogin = details => {
     
+    const originIndex = otherUsers.findIndex(e => (e.email===details.email))
     if ((details.email === adminUser.email && details.password === adminUser.password)||(otherUsers.some(e => (e.email === details.email && e.password=== details.password)))){
       console.log('logged in')
-      console.log('account number',details.number)
       
       setUser({
         name: details.name,
         email: details.email,
-        number: details.number
+        number: otherUsers[originIndex].number,
+        balance: otherUsers[originIndex].balance
       })
       setError("")
+      
     }
 
     else{
-      console.log('User does not exist.')
+      // console.log('User does not exist.')
       setError("User does not exist.")
+      console.log(otherUsers)
+      console.log(otherUsers.findIndex(e => (e.email===details.email)))
     }
   }
 
   const onLogout = () => {
     console.log("logged out")
-    setUser({name:"", email: "", number: ""})
+    setUser({name:"", email: "", number: "", balance: ""})
   }
   
   return (
@@ -59,12 +64,12 @@ function App() {
               <button className="logout-button" onClick={onLogout}>Logout</button>
           </div>
         <div className="main-page">
-        <AccountBalance user={user}/>
+        <AccountBalance user={user} setUser={setUser} accountBalances={accountBalances} setAccountBalances={setAccountBalances} otherUsers={otherUsers} setOtherUsers={setOtherUsers} />
         </div>
         </div>
         </>
       ) : (
-       <LoginForm login={onLogin} error={error} otherUsers={otherUsers} setOtherUsers={setOtherUsers}/>
+       <LoginForm login={onLogin} error={error} otherUsers={otherUsers} setOtherUsers={setOtherUsers} />
       )}
     </div>
   );

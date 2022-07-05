@@ -46,9 +46,9 @@ const submitHandler = e => {
                         <div className="form-group">
                             <input required placeholder='E-mail...' type='email' name='email' className='input-box' id='email' onChange={e => setDetails({...details, email: e.target.value})} value={details.email}/>
                         </div>
-                        <div className="form-group">
-                            <input required placeholder='Account Number...' type='number' name='number' className='input-box' id='number' onChange={e => setDetails({...details, number: e.target.value})} value={details.number}/>
-                        </div>
+                        {/* <div className="form-group">
+                            <input placeholder='Account Number...' type='number' name='number' className='input-box' id='number' onChange={e => setDetails({...details, number: e.target.value})} value={details.number}/>
+                        </div> */}
                         <div className="form-group">
                             <input required placeholder='Password...' type='password' name='password' className='input-box' id='password' onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
                         </div>

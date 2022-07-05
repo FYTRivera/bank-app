@@ -23,7 +23,8 @@ function SignUp(e){
         {name: accountName.current.value,
         email: accountEmail.current.value,
         password: accountPassword.current.value,
-        number: accountNumber.current.value
+        number: accountNumber.current.value,
+        balance: 0
         }])
 }
 

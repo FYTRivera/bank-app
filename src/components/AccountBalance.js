@@ -3,8 +3,16 @@ import ExpenseList from "./ExpenseList";
 
 function AccountBalance(props){
     const user = props.user
+    const userBalance = props.user.balance
     let initialBalance = Number(window.localStorage.getItem('accountBalance'))
-    const [endBalance, setEndBalance] = useState(Number(initialBalance))
+
+    // console.log(props.accountBalances)
+    const originIndex = props.accountBalances.findIndex(e=>e===props.user.email)
+    // console.log(props.accountBalances.findIndex(e=>e===props.user.balance))
+    // console.log(originIndex)
+    const [endBalance, setEndBalance] = useState(Number(props.otherUsers[originIndex].balance))
+    const balanceHolder = endBalance
+
     const [increment, setIncrement] = useState(0);
     //let endBalance = Number(initialBalance) + Number(increment)
     const positiveIncrement = useRef()
@@ -23,7 +31,7 @@ function AccountBalance(props){
         e.preventDefault();
     }
 
-    console.log(user)
+    // console.log(user)
 
     function testAddFunction () {
         const isOnTheList = test2.includes(expenseName.current.value)
@@ -97,17 +105,49 @@ function AccountBalance(props){
 function addMoney(){
     setEndBalance(Number(endBalance) + Number(positiveIncrement.current.value))
     positiveIncrement.current.value=''
+    console.log(user)
+    
+    props.setOtherUsers(props.otherUsers.map(item=>{
+        if(item.email===user.email){
+            console.log('item email',item.email)
+            console.log("user email",user.email)
+            return {...item, balance: balanceHolder};
+        }
+        return item;
+        }
+    ))
+    console.log(props.otherUsers)
 }
 
 function takeMoney(){
     setEndBalance(Number(endBalance) - Number(negativeIncrement.current.value))
     negativeIncrement.current.value=''
+
+    props.setOtherUsers(props.otherUsers.map(item=>{
+        if(item.email===user.email){
+            console.log('item email',item.email)
+            console.log("user email",user.email)
+            return {...item, balance: balanceHolder};
+        }
+        return item;
+        }
+    ))
 }
 
 function transferMoney(){
     setEndBalance(Number(endBalance) - Number(transferIncrement.current.value))
     transferNumber.current.value=''
     transferIncrement.current.value=''
+
+    props.setOtherUsers(props.otherUsers.map(item=>{
+        if(item.email===user.email){
+            console.log('item email',item.email)
+            console.log("user email",user.email)
+            return {...item, balance: balanceHolder};
+        }
+        return item;
+        }
+    ))
 }
 
 useEffect(() => {
